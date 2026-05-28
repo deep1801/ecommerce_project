@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AppRoutes from "./routes/AppRoutes";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (

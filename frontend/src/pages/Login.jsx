@@ -2,7 +2,11 @@ import { useState } from "react";
 
 import { loginUser } from "../services/authService";
 
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
@@ -43,10 +47,14 @@ const Login = () => {
       setEmail("");
 
       setPassword("");
+
+      // REDIRECT HOME PAGE
+
+      navigate("/");
     } catch (error) {
       console.log(error);
 
-      setMessage(error.response.data.message);
+      setMessage(error.response?.data?.message || "Something Went Wrong");
     } finally {
       // STOP LOADING
 
@@ -61,6 +69,8 @@ const Login = () => {
         className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8"
       >
         <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
+
+        {/* MESSAGE */}
 
         {message && (
           <p className="text-center mb-4 text-green-600 font-semibold">
@@ -96,10 +106,12 @@ const Login = () => {
           />
         </div>
 
+        {/* BUTTON */}
+
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-black hover:bg-gray-800 transition text-white py-3 rounded-lg"
+          className="w-full bg-black hover:bg-gray-800 transition text-white py-3 rounded-lg disabled:bg-gray-500"
         >
           {loading ? "Loading..." : "Login"}
         </button>

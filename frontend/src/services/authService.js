@@ -11,3 +11,8 @@ export const loginUser = async (userData) => {
 
   return response.data;
 };
+export const getProfile = async () => {
+  const response = await api.get("/auth/profile");
+
+  return response.data;
+};
