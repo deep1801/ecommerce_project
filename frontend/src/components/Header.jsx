@@ -1,18 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { logout } from "../redux/features/userSlice";
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  // CART DATA
+
   const { cartItems } = useSelector((state) => state.cart);
 
-  // TOKEN
+  // USER DATA
 
-  const token = localStorage.getItem("token");
+  const { user } = useSelector((state) => state.user);
 
   // LOGOUT
 
   const logoutHandler = () => {
-    localStorage.removeItem("token");
+    dispatch(logout());
 
     navigate("/login");
   };
@@ -26,12 +34,15 @@ const Header = () => {
           ShopEasy 😎
         </Link>
 
-        {/* NAV LINKS */}
+        {/* NAVBAR */}
 
         <nav className="flex items-center gap-6 text-lg">
           <Link to="/" className="hover:text-yellow-400 transition">
             Home
           </Link>
+
+          {/* CART */}
+
           <Link
             to="/cart"
             className="hover:text-yellow-400 transition relative"
@@ -50,14 +61,26 @@ const Header = () => {
             Contact
           </Link>
 
-          {token ? (
+          {/* IF USER LOGGED IN */}
+
+          {user ? (
             <>
+              {/* USER NAME */}
+
+              <p className="text-yellow-400 font-semibold">
+                Hi, {user.name} 😎
+              </p>
+
+              {/* PROFILE */}
+
               <Link
                 to="/profile"
                 className="bg-white text-black px-4 py-2 rounded-xl font-semibold hover:bg-gray-200 transition"
               >
                 Profile
               </Link>
+
+              {/* LOGOUT */}
 
               <button
                 onClick={logoutHandler}
@@ -68,9 +91,13 @@ const Header = () => {
             </>
           ) : (
             <>
+              {/* LOGIN */}
+
               <Link to="/login" className="hover:text-yellow-400 transition">
                 Login
               </Link>
+
+              {/* SIGNUP */}
 
               <Link
                 to="/signup"

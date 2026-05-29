@@ -4,8 +4,14 @@ import { loginUser } from "../services/authService";
 
 import { useNavigate } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+
+import { loginSuccess } from "../redux/features/userSlice";
+
 const Login = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
 
@@ -34,9 +40,14 @@ const Login = () => {
 
       console.log(data);
 
-      // SAVE TOKEN
+      // UPDATE REDUX STATE
 
-      localStorage.setItem("token", data.token);
+      dispatch(
+        loginSuccess({
+          user: data.user,
+          token: data.token,
+        }),
+      );
 
       // SUCCESS MESSAGE
 
