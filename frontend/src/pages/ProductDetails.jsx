@@ -19,12 +19,28 @@ const ProductDetails = () => {
   // LOADING STATE
 
   const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
   const addToCartHandler = () => {
     dispatch(addToCart(product));
 
     console.log("Product Added 😎");
+  };
+  // INCREASE QUANTITY
+
+  const increaseQuantityHandler = () => {
+    if (quantity < product.stock) {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  // DECREASE QUANTITY
+
+  const decreaseQuantityHandler = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
   // FETCH SINGLE PRODUCT
 
@@ -87,6 +103,25 @@ const ProductDetails = () => {
             Stock:
             <span className="font-semibold ml-2">{product.stock}</span>
           </p>
+          {/* QUANTITY SELECTOR */}
+
+          <div className="flex items-center gap-5 mb-6">
+            <button
+              onClick={decreaseQuantityHandler}
+              className="bg-gray-200 px-5 py-2 rounded-xl text-2xl font-bold"
+            >
+              -
+            </button>
+
+            <span className="text-2xl font-bold">{quantity}</span>
+
+            <button
+              onClick={increaseQuantityHandler}
+              className="bg-black text-white px-5 py-2 rounded-xl text-2xl font-bold"
+            >
+              +
+            </button>
+          </div>
 
           <button
             onClick={addToCartHandler}

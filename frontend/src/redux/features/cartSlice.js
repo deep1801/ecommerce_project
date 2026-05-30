@@ -26,7 +26,7 @@ const cartSlice = createSlice({
       );
 
       if (existingItem) {
-        existingItem.quantity += 1;
+        existingItem.quantity += action.payload.quantity;
       } else {
         state.cartItems.push({
           ...action.payload,

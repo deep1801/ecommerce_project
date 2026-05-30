@@ -5,6 +5,7 @@ import {
   decreaseQuantity,
   removeFromCart,
 } from "../redux/features/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   // GET CART DATA FROM REDUX
@@ -14,6 +15,7 @@ const Cart = () => {
   // DISPATCH FUNCTION
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // TOTAL PRICE CALCULATION
 
@@ -22,6 +24,9 @@ const Cart = () => {
   }, 0);
 
   console.log(cartItems);
+  const totalItems = cartItems.reduce((total, item) => {
+    return total + item.quantity;
+  }, 0);
 
   return (
     <div className="max-w-6xl mx-auto p-5">
@@ -104,13 +109,37 @@ const Cart = () => {
           {/* CART SUMMARY */}
 
           <div className="bg-white shadow-xl rounded-2xl p-6 mt-10">
-            <h2 className="text-3xl font-bold mb-5">Cart Summary</h2>
+            <h2 className="text-3xl font-bold mb-5">Order Summary</h2>
 
-            <div className="flex justify-between items-center text-2xl font-semibold border-t pt-4">
-              <span>Total Price:</span>
+            <div className="space-y-4">
+              <div className="flex justify-between">
+                <span>Total Items</span>
+                <span>{totalItems}</span>
+              </div>
 
-              <span className="text-green-600">₹ {totalPrice}</span>
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>₹ {totalPrice}</span>
+              </div>
+
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span className="text-green-600">Free</span>
+              </div>
+
+              <hr />
+
+              <div className="flex justify-between text-2xl font-bold">
+                <span>Total</span>
+                <span className="text-green-600">₹ {totalPrice}</span>
+              </div>
             </div>
+            <button
+              onClick={() => navigate("/checkout")}
+              className="w-full mt-5 bg-black text-white py-4 rounded-2xl hover:bg-gray-800 transition"
+            >
+              Proceed To Checkout
+            </button>
           </div>
         </>
       )}
