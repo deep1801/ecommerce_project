@@ -33,15 +33,10 @@ const Header = () => {
         <Link to="/" className="text-3xl font-extrabold tracking-wide">
           ShopEasy 😎
         </Link>
-
-        {/* NAVBAR */}
-
         <nav className="flex items-center gap-6 text-lg">
           <Link to="/" className="hover:text-yellow-400 transition">
             Home
           </Link>
-
-          {/* CART */}
 
           <Link
             to="/cart"
@@ -61,17 +56,20 @@ const Header = () => {
             Contact
           </Link>
 
-          {/* IF USER LOGGED IN */}
+          {/* ADMIN PANEL */}
+
+          <Link
+            to="/admin/dashboard"
+            className="bg-purple-600 px-4 py-2 rounded-xl font-semibold hover:bg-purple-700 transition"
+          >
+            Admin
+          </Link>
 
           {user ? (
             <>
-              {/* USER NAME */}
-
               <p className="text-yellow-400 font-semibold">
                 Hi, {user.name} 😎
               </p>
-
-              {/* PROFILE */}
 
               <Link
                 to="/profile"
@@ -79,8 +77,6 @@ const Header = () => {
               >
                 Profile
               </Link>
-
-              {/* LOGOUT */}
 
               <button
                 onClick={logoutHandler}
@@ -91,13 +87,9 @@ const Header = () => {
             </>
           ) : (
             <>
-              {/* LOGIN */}
-
               <Link to="/login" className="hover:text-yellow-400 transition">
                 Login
               </Link>
-
-              {/* SIGNUP */}
 
               <Link
                 to="/signup"
@@ -108,6 +100,7 @@ const Header = () => {
             </>
           )}
         </nav>
+        {/* NAVBAR */}
       </div>
     </header>
   );

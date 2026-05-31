@@ -8,6 +8,12 @@ import Signup from "../pages/Signup";
 import ProductDetails from "../pages/ProductDetails";
 import Cart from "../pages/Cart";
 import Checkout from "../pages/Checkout";
+import Payment from "../pages/Payment";
+import OrderReview from "../pages/OrderReview";
+import OrderSuccess from "../pages/OrderSuccess";
+import MyOrders from "../pages/MyOrders";
+import AdminDashboard from "../pages/AdminDashboard";
+import AdminProducts from "../pages/AdminProducts";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +30,12 @@ const AppRoutes = () => {
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/order-review" element={<OrderReview />} />
+      <Route path="/order-success" element={<OrderSuccess />} />
+      <Route path="/my-orders" element={<MyOrders />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/products" element={<AdminProducts />} />
     </Routes>
   );
 };
