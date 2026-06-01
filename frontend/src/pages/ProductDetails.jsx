@@ -23,7 +23,12 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
 
   const addToCartHandler = () => {
-    dispatch(addToCart(product));
+    dispatch(
+      addToCart({
+        ...product,
+        quantity,
+      }),
+    );
 
     console.log("Product Added 😎");
   };
@@ -62,7 +67,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [id]);
 
   // LOADING UI
 

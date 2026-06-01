@@ -30,10 +30,9 @@ const cartSlice = createSlice({
       } else {
         state.cartItems.push({
           ...action.payload,
-          quantity: 1,
+          quantity: action.payload.quantity || 1,
         });
       }
-
       // SAVE TO LOCAL STORAGE
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));

@@ -33,7 +33,31 @@ const productSlice = createSlice({
 
   initialState,
 
-  reducers: {},
+  reducers: {
+    // ADD PRODUCT
+
+    addProduct: (state, action) => {
+      state.products.push(action.payload);
+
+      console.log("Product Added 😎");
+    },
+
+    // DELETE PRODUCT
+
+    deleteProduct: (state, action) => {
+      state.products = state.products.filter(
+        (product) => product._id !== action.payload,
+      );
+
+      console.log("Product Deleted 😎");
+    },
+  },
 });
+
+// EXPORT ACTIONS
+
+export const { addProduct, deleteProduct } = productSlice.actions;
+
+// EXPORT REDUCER
 
 export default productSlice.reducer;
