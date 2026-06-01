@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { addProduct, deleteProduct } from "../redux/features/productSlice";
+import {
+  addProduct,
+  deleteProduct,
+  updateProduct,
+} from "../redux/features/productSlice";
 
 const AdminProducts = () => {
   const { products } = useSelector((state) => state.product);
@@ -11,6 +15,7 @@ const AdminProducts = () => {
     dispatch(deleteProduct(id));
     console.log("Product Deleted 😎");
   };
+
   const editHandler = (product) => {
     setSelectedProduct(product);
 
@@ -39,8 +44,9 @@ const AdminProducts = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const submitHandler = () => {
-    const newProduct = {
-      _id: Date.now().toString(),
+    const productData = {
+      _id: selectedProduct ? selectedProduct._id : Date.now().toString(),
+
       title,
       price: Number(price),
       stock: Number(stock),
@@ -49,7 +55,13 @@ const AdminProducts = () => {
       description,
     };
 
-    dispatch(addProduct(newProduct));
+    if (selectedProduct) {
+      dispatch(updateProduct(productData));
+      console.log("Product Updated 😎");
+    } else {
+      dispatch(addProduct(productData));
+      console.log("Product Added 😎");
+    }
 
     setShowModal(false);
 
@@ -60,7 +72,7 @@ const AdminProducts = () => {
     setImage("");
     setDescription("");
 
-    console.log("Product Added 😎");
+    setSelectedProduct(null);
   };
 
   return (
@@ -148,7 +160,9 @@ const AdminProducts = () => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <div className="bg-white w-full max-w-xl rounded-3xl p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-3xl font-bold">Add New Product 📦</h2>
+              <h2 className="text-3xl font-bold">
+                {selectedProduct ? "Edit Product ✏️" : "Add New Product 📦"}
+              </h2>
 
               <button
                 onClick={() => setShowModal(false)}
@@ -213,7 +227,7 @@ const AdminProducts = () => {
                 onClick={submitHandler}
                 className="w-full bg-black text-white py-4 rounded-2xl font-bold text-lg shadow-lg hover:bg-gray-800 hover:scale-[1.02] transition-all"
               >
-                Add Product 🚀
+                {selectedProduct ? "Save Changes ✅" : "Add Product 🚀"}
               </button>
             </div>
           </div>

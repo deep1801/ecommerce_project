@@ -51,12 +51,20 @@ const productSlice = createSlice({
 
       console.log("Product Deleted 😎");
     },
+    updateProduct: (state, action) => {
+      state.products = state.products.map((product) =>
+        product._id === action.payload._id ? action.payload : product,
+      );
+
+      console.log("Product Updated 😎");
+    },
   },
 });
 
 // EXPORT ACTIONS
 
-export const { addProduct, deleteProduct } = productSlice.actions;
+export const { addProduct, deleteProduct, updateProduct } =
+  productSlice.actions;
 
 // EXPORT REDUCER
 
