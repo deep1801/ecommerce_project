@@ -16,6 +16,7 @@
     "mongoose": "^8.3.2",
     "nodemailer": "^8.0.8",
     "otp-generator": "^4.0.1",
+    "react-hot-toast": "^2.6.0",
     "react-redux": "^9.3.0"
   },
   "devDependencies": {

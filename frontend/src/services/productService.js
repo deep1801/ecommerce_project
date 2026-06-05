@@ -1,17 +1,22 @@
 import api from "./api";
 
-// GET ALL PRODUCTS
-
 export const getProducts = async () => {
   const response = await api.get("/products/get");
 
   return response.data;
 };
+export const createProduct = async (productData) => {
+  const response = await api.post("/products/create", productData);
 
-// GET SINGLE PRODUCT
+  return response.data;
+};
+export const updateProduct = async (id, productData) => {
+  const response = await api.put(`/products/update/${id}`, productData);
 
-export const getSingleProduct = async (id) => {
-  const response = await api.get(`/products/get/${id}`);
+  return response.data;
+};
+export const deleteProduct = async (id) => {
+  const response = await api.delete(`/products/delete/${id}`);
 
   return response.data;
 };

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
 
-import { getSingleProduct } from "../services/productService";
 import { useDispatch } from "react-redux";
 
 import { addToCart } from "../redux/features/cartSlice";
