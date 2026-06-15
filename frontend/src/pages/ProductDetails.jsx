@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { addToCart } from "../redux/features/cartSlice";
+import { getSingleProduct } from "../services/productService";
 
 const ProductDetails = () => {
   // GET ID FROM URL
@@ -51,6 +52,8 @@ const ProductDetails = () => {
   const fetchProduct = async () => {
     try {
       const data = await getSingleProduct(id);
+      console.log("Product ID =", id);
+      console.log("Product Data =", data);
 
       console.log(data);
 
@@ -72,6 +75,9 @@ const ProductDetails = () => {
 
   if (loading) {
     return <h1 className="text-center text-3xl mt-10">Loading Product...</h1>;
+  }
+  if (!product) {
+    return <h1 className="text-center text-3xl mt-10">Product Not Found 😔</h1>;
   }
 
   return (

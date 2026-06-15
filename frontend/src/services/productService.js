@@ -20,3 +20,8 @@ export const deleteProduct = async (id) => {
 
   return response.data;
 };
+export const getSingleProduct = async (id) => {
+  const response = await api.get(`/products/get/${id}`);
+
+  return response.data;
+};
