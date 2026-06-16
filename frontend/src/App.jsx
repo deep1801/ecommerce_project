@@ -5,10 +5,10 @@ import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-canvas text-ink-950">
       <Header />
 
-      <main className="flex-grow p-5">
+      <main className="flex-grow">
         <AppRoutes />
       </main>
 

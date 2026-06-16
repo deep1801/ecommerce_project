@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import InputField from "../components/InputField";
 
@@ -49,56 +50,78 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[80vh] bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8"
-      >
-        <h1 className="text-3xl font-bold text-center mb-6">Create Account</h1>
+    <div className="flex min-h-[85vh] items-center justify-center px-5 py-12">
+      <div className="w-full max-w-md animate-fade-up">
+        <div className="rounded-3xl border border-ink-100 bg-white p-8 shadow-card sm:p-10">
+          {/* Brand mark */}
+          <div className="mb-7 text-center">
+            <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-ink-950 font-display text-xl font-extrabold text-brand-400">
+              S
+            </span>
+            <h1 className="mt-5 font-display text-2xl font-extrabold text-ink-950">
+              Create your account
+            </h1>
+            <p className="mt-1.5 text-sm text-ink-500">
+              Join ShopEasy and start shopping today
+            </p>
+          </div>
 
-        {message && (
-          <p className="text-center mb-4 text-green-600 font-semibold">
-            {message}
-          </p>
-        )}
+          {message && (
+            <div className="mb-5 rounded-xl bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-700">
+              {message}
+            </div>
+          )}
 
-        <InputField
-          label="Name"
-          type="text"
-          name="name"
-          placeholder="Enter Name"
-          value={formData.name}
-          onChange={handleChange}
-          error={errors.name}
-        />
+          <form onSubmit={handleSubmit}>
+            <InputField
+              label="Name"
+              type="text"
+              name="name"
+              placeholder="John Doe"
+              value={formData.name}
+              onChange={handleChange}
+              error={errors.name}
+            />
 
-        <InputField
-          label="Email"
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          value={formData.email}
-          onChange={handleChange}
-          error={errors.email}
-        />
+            <InputField
+              label="Email"
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
+              error={errors.email}
+            />
 
-        <InputField
-          label="Password"
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          value={formData.password}
-          onChange={handleChange}
-          error={errors.password}
-        />
+            <InputField
+              label="Password"
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              value={formData.password}
+              onChange={handleChange}
+              error={errors.password}
+            />
 
-        <button
-          type="submit"
-          className="w-full bg-black hover:bg-gray-800 transition text-white py-3 rounded-lg mt-2"
-        >
-          Signup
-        </button>
-      </form>
+            <button
+              type="submit"
+              className="mt-2 w-full rounded-xl bg-ink-950 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-400 hover:text-ink-950"
+            >
+              Create Account
+            </button>
+          </form>
+        </div>
+
+        <p className="mt-6 text-center text-sm text-ink-500">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="font-semibold text-ink-950 underline-offset-4 hover:underline"
+          >
+            Sign in
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

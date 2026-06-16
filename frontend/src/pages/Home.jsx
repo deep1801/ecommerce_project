@@ -93,127 +93,174 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  const categories = ["All", "Mobile", "Laptop", "Accessories"];
+
   return (
-    <div className="max-w-7xl mx-auto px-5 py-10">
+    <div className="max-w-7xl mx-auto px-5 sm:px-6 py-10">
       {/* HERO SECTION */}
 
       <HeroSection />
 
       {/* HEADING */}
 
-      <h1 className="text-5xl font-extrabold text-center mb-12">
-        Latest Products 🔥
-      </h1>
-
-      {/* SEARCH INPUT */}
-
-      <div className="flex justify-center mb-10">
-        <input
-          type="text"
-          placeholder="Search Products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-xl border-2 border-gray-200 focus:border-black outline-none px-6 py-4 rounded-2xl shadow-sm text-lg"
-        />
+      <div id="products" className="mb-8 scroll-mt-24 text-center">
+        <span className="text-sm font-semibold uppercase tracking-widest text-brand-600">
+          Featured Collection
+        </span>
+        <h1 className="mt-2 font-display text-3xl sm:text-4xl font-extrabold text-ink-950">
+          Latest Products
+        </h1>
+        <p className="mt-3 text-ink-500">
+          Handpicked premium products, updated daily.
+        </p>
       </div>
 
-      {/* SORT DROPDOWN */}
+      {/* TOOLBAR: search + sort */}
 
-      <div className="flex justify-end mb-10">
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-          className="border-2 border-gray-200 px-5 py-3 rounded-2xl outline-none focus:border-black"
-        >
-          <option value="">Sort By</option>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <svg
+            className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+            />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full rounded-2xl border border-ink-200 bg-white py-3.5 pl-12 pr-4 text-sm shadow-soft outline-none transition focus:border-ink-950 focus:ring-4 focus:ring-ink-950/10"
+          />
+        </div>
 
-          <option value="lowToHigh">Price: Low to High</option>
-
-          <option value="highToLow">Price: High to Low</option>
-        </select>
+        <div className="relative">
+          <select
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+            className="w-full cursor-pointer appearance-none rounded-2xl border border-ink-200 bg-white py-3.5 pl-4 pr-11 text-sm font-medium shadow-soft outline-none transition focus:border-ink-950 sm:w-auto"
+          >
+            <option value="">Sort by: Featured</option>
+            <option value="lowToHigh">Price: Low to High</option>
+            <option value="highToLow">Price: High to Low</option>
+          </select>
+          <svg
+            className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m19.5 8.25-7.5 7.5-7.5-7.5"
+            />
+          </svg>
+        </div>
       </div>
 
-      {/* CATEGORY BUTTONS */}
+      {/* CATEGORY PILLS */}
 
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
-        <button
-          onClick={() => setCategory("All")}
-          className={`px-6 py-3 rounded-2xl font-semibold transition ${
-            category === "All"
-              ? "bg-black text-white"
-              : "bg-gray-200 text-black"
-          }`}
-        >
-          All
-        </button>
-
-        <button
-          onClick={() => setCategory("Mobile")}
-          className={`px-6 py-3 rounded-2xl font-semibold transition ${
-            category === "Mobile"
-              ? "bg-black text-white"
-              : "bg-gray-200 text-black"
-          }`}
-        >
-          Mobile
-        </button>
-
-        <button
-          onClick={() => setCategory("Laptop")}
-          className={`px-6 py-3 rounded-2xl font-semibold transition ${
-            category === "Laptop"
-              ? "bg-black text-white"
-              : "bg-gray-200 text-black"
-          }`}
-        >
-          Laptop
-        </button>
-
-        <button
-          onClick={() => setCategory("Accessories")}
-          className={`px-6 py-3 rounded-2xl font-semibold transition ${
-            category === "Accessories"
-              ? "bg-black text-white"
-              : "bg-gray-200 text-black"
-          }`}
-        >
-          Accessories
-        </button>
+      <div className="mb-10 flex flex-wrap gap-2.5">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setCategory(cat)}
+            className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${
+              category === cat
+                ? "bg-ink-950 text-white shadow-soft"
+                : "border border-ink-200 bg-white text-ink-600 hover:border-ink-950 hover:text-ink-950"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
 
-      {/* LOADING */}
+      {/* LOADING — skeleton grid */}
 
       {loading ? (
-        <h2 className="text-center text-2xl font-semibold">
-          Loading Products...
-        </h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="overflow-hidden rounded-2xl border border-ink-100 bg-white shadow-soft"
+            >
+              <div className="skeleton aspect-square w-full" />
+              <div className="space-y-3 p-5">
+                <div className="skeleton h-5 w-3/4 rounded-md" />
+                <div className="skeleton h-4 w-full rounded-md" />
+                <div className="skeleton h-4 w-2/3 rounded-md" />
+                <div className="skeleton h-11 w-full rounded-xl" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <>
-          {/* NO PRODUCTS */}
+          {/* NO PRODUCTS — empty state */}
 
           {sortedProducts.length === 0 ? (
-            <h2 className="text-center text-2xl font-semibold text-red-500">
-              No Products Found 😢
-            </h2>
+            <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-ink-200 bg-white py-20 text-center">
+              <div className="grid h-16 w-16 place-items-center rounded-full bg-ink-50">
+                <svg
+                  className="h-8 w-8 text-ink-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.6}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg>
+              </div>
+              <h2 className="mt-5 font-display text-xl font-bold text-ink-950">
+                No products found
+              </h2>
+              <p className="mt-2 max-w-sm text-sm text-ink-500">
+                We couldn't find anything matching your search. Try a different
+                keyword or category.
+              </p>
+            </div>
           ) : (
             <>
               {/* PRODUCTS GRID */}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {displayedProducts.map((product) => (
-                  <ProductCard key={product._id} product={product} />
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {displayedProducts.map((product, i) => (
+                  <div
+                    key={product._id}
+                    className={`animate-fade-up stagger-${Math.min(i, 8)}`}
+                  >
+                    <ProductCard product={product} />
+                  </div>
                 ))}
               </div>
 
               {/* LOAD MORE */}
 
               {visibleProducts < sortedProducts.length && (
-                <div className="flex justify-center mt-12">
+                <div className="mt-14 flex flex-col items-center gap-3">
+                  <p className="text-sm text-ink-400">
+                    Showing {displayedProducts.length} of {sortedProducts.length}{" "}
+                    products
+                  </p>
                   <button
                     onClick={() => setVisibleProducts(visibleProducts + 4)}
-                    className="bg-black text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:bg-gray-800 transition"
+                    className="rounded-2xl border border-ink-950 bg-white px-8 py-3.5 text-sm font-semibold text-ink-950 transition-colors hover:bg-ink-950 hover:text-white"
                   >
-                    Load More 😎
+                    Load More Products
                   </button>
                 </div>
               )}
