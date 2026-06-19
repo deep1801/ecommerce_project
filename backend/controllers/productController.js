@@ -189,3 +189,66 @@ export const updateProduct = async (req, res) => {
     });
   }
 };
+export const getDashboardStats = async (req, res) => {
+  try {
+    // ==========================
+    // OVERALL DASHBOARD STATS
+    // ==========================
+
+    const stats = await Product.aggregate([
+      {
+        $group: {
+          _id: null,
+
+          totalRevenue: {
+            $sum: "$price",
+          },
+
+          totalProducts: {
+            $sum: 1,
+          },
+
+          averagePrice: {
+            $avg: "$price",
+          },
+        },
+      },
+    ]);
+
+    // ==========================
+    // CATEGORY WISE PRODUCTS
+    // ==========================
+
+    const categoryStats = await Product.aggregate([
+      {
+        $group: {
+          _id: "$category",
+
+          totalProducts: {
+            $sum: 1,
+          },
+        },
+      },
+    ]);
+
+    // ==========================
+    // RESPONSE
+    // ==========================
+
+    res.status(200).json({
+      success: true,
+
+      stats: stats[0],
+
+      categoryStats,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+
+      message: "Dashboard Stats Error",
+    });
+  }
+};

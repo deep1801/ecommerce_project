@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 import { addToCart } from "../redux/features/cartSlice";
 import { getSingleProduct } from "../services/productService";
+import { addRecentlyViewed } from "../utils/helpers";
 
 const ProductDetails = () => {
   // GET ID FROM URL
@@ -58,6 +59,9 @@ const ProductDetails = () => {
       console.log(data);
 
       setProduct(data.product);
+
+      // Track as recently viewed (UI-only, localStorage)
+      addRecentlyViewed(data.product);
     } catch (error) {
       console.log(error);
     } finally {

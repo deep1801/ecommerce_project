@@ -25,3 +25,13 @@ export const getSingleProduct = async (id) => {
 
   return response.data;
 };
+export const getDashboardStats = async () => {
+  const response = await api.get("/products/dashboard-stats");
+
+  return response.data;
+};
+export const searchProducts = async (searchTerm) => {
+  const response = await api.get(`/products/search/${searchTerm}`);
+
+  return response.data;
+};
