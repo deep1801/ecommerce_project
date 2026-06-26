@@ -106,8 +106,7 @@ const AdminProducts = () => {
   console.log("Average Price =", averagePrice);
 
   const stockBadge = (stock) => {
-    if (stock === undefined)
-      return "bg-ink-50 text-ink-500";
+    if (stock === undefined) return "bg-ink-50 text-ink-500";
     if (stock <= 0) return "bg-red-50 text-red-600";
     if (stock <= 5) return "bg-amber-50 text-amber-600";
     return "bg-emerald-50 text-emerald-600";
@@ -169,33 +168,63 @@ const AdminProducts = () => {
             label: "Total Products",
             value: products.length,
             accent: "text-ink-950",
+            chip: "bg-ink-950 text-brand-400",
+            icon: "M20.25 7.5 12 3 3.75 7.5m16.5 0L12 12m8.25-4.5v9L12 21m0-9L3.75 7.5M12 12v9m0-9L3.75 7.5",
           },
           {
             label: "Search Results",
             value: filteredProducts.length,
             accent: "text-ink-950",
+            chip: "bg-brand-100 text-brand-600",
+            icon: "m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z",
           },
           {
             label: "Average Price",
             value: `₹${averagePrice.toLocaleString("en-IN")}`,
             accent: "text-ink-950",
+            chip: "bg-indigo-50 text-indigo-600",
+            icon: "M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
           },
           {
             label: "Inventory Value",
             value: `₹${totalPrice.toLocaleString("en-IN")}`,
             accent: "text-emerald-600",
+            chip: "bg-emerald-50 text-emerald-600",
+            icon: "M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941",
           },
         ].map((s) => (
           <div
             key={s.label}
-            className="rounded-2xl border border-ink-100 bg-white p-6 shadow-soft"
+            className="group relative overflow-hidden rounded-2xl border border-ink-100 bg-white p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-card"
           >
-            <p className="text-sm text-ink-500">{s.label}</p>
-            <h2
-              className={`mt-1.5 font-display text-3xl font-extrabold ${s.accent}`}
-            >
-              {s.value}
-            </h2>
+            <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-ink-50/70 blur-2xl transition-opacity duration-300 group-hover:opacity-0" />
+            <div className="relative flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm text-ink-500">{s.label}</p>
+                <h2
+                  className={`mt-1.5 font-display text-3xl font-extrabold ${s.accent}`}
+                >
+                  {s.value}
+                </h2>
+              </div>
+              <span
+                className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl ${s.chip} transition-transform duration-300 group-hover:scale-110`}
+              >
+                <svg
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.6}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d={s.icon}
+                  />
+                </svg>
+              </span>
+            </div>
           </div>
         ))}
       </div>
@@ -217,11 +246,32 @@ const AdminProducts = () => {
         </svg>
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder="Search products by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-2xl border border-ink-200 bg-white py-3.5 pl-12 pr-4 text-sm shadow-soft outline-none transition focus:border-ink-950 focus:ring-4 focus:ring-ink-950/10"
+          className="w-full rounded-2xl border border-ink-200 bg-white py-3.5 pl-12 pr-12 text-sm shadow-soft outline-none transition focus:border-ink-950 focus:ring-4 focus:ring-ink-950/10"
         />
+        {search && (
+          <button
+            onClick={() => setSearch("")}
+            aria-label="Clear search"
+            className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-ink-400 transition hover:bg-ink-50 hover:text-ink-950"
+          >
+            <svg
+              className="h-4.5 w-4.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        )}
       </div>
 
       {/* ADD / EDIT MODAL */}
@@ -409,21 +459,23 @@ const AdminProducts = () => {
                 {filteredProducts.map((product, i) => (
                   <tr
                     key={product._id}
-                    className={`animate-fade-up stagger-${Math.min(
+                    className={`group animate-fade-up stagger-${Math.min(
                       i,
                       8,
-                    )} border-b border-ink-50 transition-colors last:border-0 hover:bg-ink-50/40`}
+                    )} border-b border-ink-50 transition-colors last:border-0 hover:bg-brand-50/40`}
                   >
                     {/* PRODUCT */}
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <img
-                          src={product.image}
-                          alt={product.title}
-                          className="h-12 w-12 shrink-0 rounded-xl border border-ink-100 bg-ink-50 object-cover"
-                        />
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-ink-100 bg-ink-50 ring-1 ring-transparent transition group-hover:ring-brand-300">
+                          <img
+                            src={product.image}
+                            alt={product.title}
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                        </div>
                         <div className="min-w-0">
-                          <p className="line-clamp-1 font-semibold text-ink-950">
+                          <p className="line-clamp-1 font-semibold text-ink-950 transition-colors group-hover:text-brand-600">
                             {product.title}
                           </p>
                           <p className="line-clamp-1 text-xs text-ink-400">

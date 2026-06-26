@@ -194,7 +194,6 @@ export const getDashboardStats = async (req, res) => {
     // ==========================
     // OVERALL DASHBOARD STATS
     // ==========================
-
     const stats = await Product.aggregate([
       {
         $group: {
@@ -213,12 +212,25 @@ export const getDashboardStats = async (req, res) => {
           },
         },
       },
+
+      {
+        $project: {
+          _id: 0,
+
+          totalRevenue: 1,
+
+          totalProducts: 1,
+
+          averagePrice: {
+            $round: ["$averagePrice", 0],
+          },
+        },
+      },
     ]);
 
     // ==========================
     // CATEGORY WISE PRODUCTS
     // ==========================
-
     const categoryStats = await Product.aggregate([
       {
         $group: {
@@ -227,7 +239,21 @@ export const getDashboardStats = async (req, res) => {
           totalProducts: {
             $sum: 1,
           },
+
+          categoryRevenue: {
+            $sum: "$price",
+          },
         },
+      },
+
+      {
+        $sort: {
+          categoryRevenue: -1,
+        },
+      },
+
+      {
+        $limit: 3,
       },
     ]);
 
